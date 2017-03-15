@@ -84,7 +84,6 @@ def sim_pearson(prefs, p1, p2):
     if n == 0: return 0
 
     '''Add up all the preferences'''
-    pdb.set_trace()
     sum1 = sum([prefs[p1][it] for it in si])
     sum2 = sum([prefs[p2][it] for it in si])
 
@@ -103,3 +102,16 @@ def sim_pearson(prefs, p1, p2):
     r = num/den
 
     return r
+
+'''
+Return the best matches for person from prefs dictionary.
+Number of result and similarity function are optional params.
+'''
+def topMatches(prefs, person, n = 5, similarity = sim_pearson):
+    scores = [(similarity(prefs, person, other), other)
+              for other in prefs if other != person]
+
+    '''Sort the list so the highest scores appear at the top'''
+    scores.sort()
+    scores.reverse()
+    return scores[0:n]
