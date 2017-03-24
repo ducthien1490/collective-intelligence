@@ -51,6 +51,59 @@ critics = {
     }
 }
 
+ratings = {
+    'John': {
+      'Kong': 7.0,
+      'John Wick': 7.5,
+      'Logan': 6.0,
+      'Split': 5.5,
+      'Moana': 6.5,
+      'La La La Land': 8.0
+    },
+    'Lee': {
+      'Kong': 6.5,
+      'John Wick': 5.0,
+      'Logan': 4.5,
+      'Split': 4,
+      'La La La Land': 6.0,
+      'Moana': 7.0
+    },
+    'Jacob': {
+      'Kong': 6.0,
+      'John Wick': 5.0,
+      'Split': 7.0,
+      'La La La Land': 8.0
+    },
+    'Sarah': {
+      'John Wick': 7.0,
+      'Logan': 6.0,
+      'La La La Land': 9.5,
+      'Split': 8.0,
+      'Moana': 5.0
+    },
+    'Prince': {
+      'Kong': 6.0,
+      'John Wick': 8.0,
+      'Logan': 5.0,
+      'Split': 6.0,
+      'La La La Land': 7.0,
+      'Moana': 5.0
+    },
+    'Kevin': {
+      'Kong': 7.0,
+      'John Wick': 8.0,
+      'La La La Land': 7.0,
+      'Split': 10.0,
+      'Moana': 7.5
+    },
+    'Jack': {
+      'John Wick': 9.0,
+      'Moana': 4.0,
+      'Split':8.0
+    }
+  }
+
+
 from math import sqrt
 import pdb
 
