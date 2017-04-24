@@ -156,3 +156,54 @@ def user_based_recommendation data, user
   end
   rankings.sort_by{|rank| rank.values.first }.reverse
 end
+
+def convert_to_items_based ratings
+  {}.tap do |items_ratings|
+    # Get all movies names and iterating whole movies names
+    ratings.values.map{|reviews| reviews.keys}.flatten.uniq.each do |movie|
+      items_ratings[movie] = {}
+      ratings.each do |user, rate|
+        user_rate = rate[movie]
+        items_ratings[movie][user] = user_rate unless user_rate.nil?
+      end
+    end
+  end
+end
+
+def calculate_similar_items ratings, n = 10
+  {}.tap do |similar_items|
+    item_ratings = convert_to_items_based ratings
+    item_ratings.each do |movie, ratings|
+      puts "[INFO]: #{movie.to_s} - #{ratings.values.length} ratings"
+      scores = top_matches(item_ratings, movie, n = n)
+      similar_items[movie] = scores
+    end
+  end
+end
+
+def item_based_recommendation ratings, user
+  user_ratings = ratings[user]
+  scores = {}
+  total_sim = {}
+  similar_items = calculate_similar_items ratings
+
+  user_ratings.each do |movie, rating|
+    similar_items[movie].each do |sim_movie|
+      #ignore item has already had review
+      sim_movie_name = sim_movie.keys.first
+      sim_movie_score = sim_movie.values.first
+      next unless user_ratings[sim_movie_name].nil?
+
+      scores[sim_movie_name] = 0 if scores[sim_movie_name].nil?
+      scores[sim_movie_name] +=  sim_movie_score * rating
+
+      total_sim[sim_movie_name] = 0 if total_sim[sim_movie_name].nil?
+      total_sim[sim_movie_name] += sim_movie_score
+    end
+  end
+
+  rankings = scores.map do |item, score|
+    {}.tap{|rec| rec[item] = score/total_sim[item]}
+  end
+  rankings.sort_by{|rank| rank.values.first }.reverse
+end
