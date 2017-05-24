@@ -13,7 +13,6 @@ def readfile(filename):
         p = line.strip().split('\t')
         '''First column in each row is the row name'''
         rownames.append(p[0])
-        print(p[0])
         '''The data for this row is the remainder of the row'''
         data.append([float(x) for x in p[1:]])
     return rownames, colnames, data
@@ -47,8 +46,6 @@ def hcluster(rows, distance=pearson):
 
     while len(clust) > 1:
         lowestpair = (0, 1)
-        print(clust[0].id, clust[1].id)
-        if clust[1].id == -1: pdb.set_trace()
         closest = distance(clust[0].vec, clust[1].vec)
 
         '''Loop through every pair looking for the smallest distance'''
@@ -77,3 +74,18 @@ def hcluster(rows, distance=pearson):
         clust.append(newcluster)
 
     return clust[0]
+
+def printclust(clust, labels=None, n=0):
+    '''Indent to make a hierarchy layout'''
+    for i in range(n): print ' ',
+    if clust.id < 0:
+        '''Negative id means that this is branch'''
+        print '-'
+    else:
+        '''positive id means that this is an endpoint'''
+        if labels == None: print clust.id
+        else: print labels[clust.id]
+
+    '''Now print the right and left branches'''
+    if clust.left != None: printclust(clust.left, labels=labels, n=n+1)
+    if clust.right != None: printclust(clust.right, labels=labels, n=n+1)
